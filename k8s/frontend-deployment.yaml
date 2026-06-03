@@ -18,6 +18,6 @@ spec:
     spec:
       containers:
       - name: chaicafe-frontend
-        image: rakesh2398/frontend:latest
+        image: rakesh2398/frontend:7
         ports:
         - containerPort: 80
