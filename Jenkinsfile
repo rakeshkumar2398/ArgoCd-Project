@@ -10,28 +10,27 @@ pipeline {
             }
         }
 
-        stage('SonarQube Scan') {
-            steps {
-                echo 'Running SonarQube Scan'
-
-                dir('backend') {
-                    withCredentials([string(credentialsId: 'sonar', variable: 'SONAR_TOKEN')]) {
-                        sh '''
-                            mvn sonar:sonar \
-                            -Dsonar.host.url=http://54.87.47.172:9000 \
-                            -Dsonar.login=$SONAR_TOKEN
-                        '''
-                    }
-                }
-            }
-        }
-
         stage('Build Backend Artifact') {
             steps {
                 echo 'Building Backend Artifact'
 
                 dir('backend') {
                     sh 'mvn clean package'
+                }
+            }
+        }
+
+        stage('SonarQube Scan') {
+            steps {
+                echo 'Running SonarQube Scan'
+
+                dir('backend') {
+                    withSonarQubeEnv('sonar') {
+                        sh '''
+                            mvn sonar:sonar \
+                            -Dsonar.java.binaries=target/classes
+                        '''
+                    }
                 }
             }
         }
