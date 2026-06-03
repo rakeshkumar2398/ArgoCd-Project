@@ -17,7 +17,7 @@ spec:
         app: chaicafe-frontend
     spec:
       containers:
-      - name: Chaicafe-frontend
+      - name: chaicafe-frontend
         image: rakeshkumar2398/frontend:latest
         ports:
         - containerPort: 80
