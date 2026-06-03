@@ -1,93 +1,103 @@
 pipeline {
     agent any
 
-    environment {
-        DOCKERHUB_USER = 'rakesh2398'
-        BACKEND_IMAGE = "${DOCKERHUB_USER}/chai-kafe-backend:latest"
-        FRONTEND_IMAGE = "${DOCKERHUB_USER}/chai-kafe-frontend:latest"
-    }
-
     stages {
+
         stage('Checkout') {
             steps {
-                checkout scm
+                echo 'Cloning GitHub Repository'
+
+                git branch: 'main',
+                url: 'https://github.com/rakeshkumar2398/ArgoCd-Project.git'
             }
         }
 
-        stage('Build-Backend') {
+        stage('SonarQube Scan') {
             steps {
-                dir('backend') {
-                    sh 'mvn clean package -DskipTests'
+                echo 'Running SonarQube Scan'
+
+                withCredentials([string(credentialsId: 'sonar', variable: 'SONAR_TOKEN')]) {
+
+                    sh '''
+                        mvn sonar:sonar \
+                        -Dsonar.host.url=http://54.87.47.172:9000 \
+                        -Dsonar.login=$SONAR_TOKEN
+                    '''
                 }
             }
         }
 
-        stage('Test Backend') {
-    steps {
-        dir('backend') {
-            sh 'mvn clean package -DskipTests'
-        }
-    }
-}
-        stage('SonarQube Analysis') {
+        stage('Build Backend Artifact') {
             steps {
-                script {
-                    def scannerHome = tool 'SonarScanner'
-                    withSonarQubeEnv('SonarQube') {
-                        sh """
-                        ${scannerHome}/bin/sonar-scanner \
-                        -Dsonar.projectKey=sonar \
-                        -Dsonar.projectName="Chai Kafe DevOps Project" \
-                        -Dsonar.sources=backend/src/main/java,frontend/src \
-                        -Dsonar.java.binaries=backend/target/classes
-                        """
-                    }
-                }
-            }
-        }
-        stage('Trivy File Scan') {
-            steps {
-                sh 'trivy fs . --format table -o trivy-fs-report.html'
+                echo 'Building Backend Artifact'
+
+                sh 'mvn clean package'
             }
         }
 
-        stage('Build Docker Images') {
+        stage('Build Frontend Docker Image') {
             steps {
-                sh 'docker build -t $BACKEND_IMAGE ./backend'
-                sh 'docker build -t $FRONTEND_IMAGE ./frontend'
+                echo 'Building Frontend Docker Image'
+
+                sh 'docker build -t rakesh2398/frontend:${BUILD_NUMBER} ./frontend'
             }
         }
 
-        stage('Trivy Image Scan') {
+        stage('Build Backend Docker Image') {
             steps {
-                sh 'trivy image $BACKEND_IMAGE --format table -o trivy-backend-image-report.html'
-                sh 'trivy image $FRONTEND_IMAGE --format table -o trivy-frontend-image-report.html'
+                echo 'Building Backend Docker Image'
+
+                sh 'docker build -t rakesh2398/backend:${BUILD_NUMBER} ./backend'
             }
         }
 
-        stage('DockerHub Login') {
+        stage('Scan Docker Images using Trivy') {
             steps {
-                withCredentials([usernamePassword(
-                    credentialsId: 'dockerhub-credentials',
-                    usernameVariable: 'DOCKER_USER',
-                    passwordVariable: 'DOCKER_PASS'
-                )]) {
-                    sh 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
+                echo 'Scanning Docker Images'
+
+                sh 'trivy image rakesh2398/frontend:${BUILD_NUMBER}'
+                sh 'trivy image rakesh2398/backend:${BUILD_NUMBER}'
+            }
+        }
+
+        stage('Push Docker Images') {
+            steps {
+
+                withCredentials([string(credentialsId: 'dockerhub', variable: 'DOCKERHUB_TOKEN')]) {
+
+                    sh '''
+                        docker login -u rakesh2398 -p $DOCKERHUB_TOKEN
+
+                        docker push rakesh2398/frontend:${BUILD_NUMBER}
+
+                        docker push rakesh2398/backend:${BUILD_NUMBER}
+                    '''
                 }
             }
         }
 
-        stage('Push Images') {
+        stage('Update Kubernetes Manifests') {
             steps {
-                sh 'docker push $BACKEND_IMAGE'
-                sh 'docker push $FRONTEND_IMAGE'
-            }
-        }
-    }
 
-    post {
-        always {
-            archiveArtifacts artifacts: 'trivy-*.html', allowEmptyArchive: true
+                withCredentials([string(credentialsId: 'github-token', variable: 'GITHUB_TOKEN')]) {
+
+                    sh '''
+                        git config user.email "rakesh2398@gmail.com"
+                        git config user.name "rakesh2398"
+
+                        sed -i "s|image: rakesh2398/frontend:.*|image: rakesh2398/frontend:${BUILD_NUMBER}|g" k8s/frontend-deployment.yaml
+
+                        sed -i "s|image: rakesh2398/backend:.*|image: rakesh2398/backend:${BUILD_NUMBER}|g" k8s/backend-deployment.yaml
+
+                        git add k8s/frontend-deployment.yaml
+                        git add k8s/backend-deployment.yaml
+
+                        git commit -m "Updated image tags to build ${BUILD_NUMBER}" || echo "No changes to commit"
+
+                        git push https://$GITHUB_TOKEN@github.com/rakeshkumar2398/ArgoCd-Project.git HEAD:main
+                    '''
+                }
+            }
         }
     }
 }
