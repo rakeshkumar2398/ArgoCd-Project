@@ -64,7 +64,7 @@ pipeline {
 
                 withCredentials([string(credentialsId: 'dockerhub', variable: 'DOCKERHUB_TOKEN')]) {
                     sh '''
-                        docker login -u rakesh2398 -p $DOCKERHUB_TOKEN
+                        echo "$DOCKERHUB_TOKEN" | docker login -u rakesh2398 --password-stdin
                         docker push rakesh2398/frontend:${BUILD_NUMBER}
                         docker push rakesh2398/backend:${BUILD_NUMBER}
                     '''
