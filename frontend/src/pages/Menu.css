@@ -1,0 +1,129 @@
+.menu-wrapper {
+  width: 100%;
+}
+
+.menu-message {
+  text-align: center;
+  font-size: 18px;
+  color: #7c4a20;
+  margin-top: 20px;
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 28px;
+}
+
+.menu-card {
+  background: #ffffff;
+  border-radius: 22px;
+  padding: 26px;
+  box-shadow: 0 14px 35px rgba(60, 30, 10, 0.12);
+  border: 1px solid #f2dfc8;
+  transition: all 0.3s ease;
+}
+
+.menu-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 45px rgba(60, 30, 10, 0.18);
+}
+
+.menu-image {
+  width: 100%;
+  height: 190px;
+  object-fit: cover;
+  border-radius: 18px;
+  margin-bottom: 18px;
+}
+
+.menu-card h3 {
+  font-size: 24px;
+  color: #4b260f;
+  margin-bottom: 12px;
+}
+
+.menu-description {
+  color: #6b5b4b;
+  line-height: 1.6;
+  min-height: 55px;
+  margin-bottom: 20px;
+}
+
+.menu-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.price {
+  font-size: 24px;
+  font-weight: 800;
+  color: #d97706;
+}
+
+.available {
+  background: #dcfce7;
+  color: #166534;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.unavailable {
+  background: #fee2e2;
+  color: #991b1b;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.add-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #8b4513, #d97706);
+  color: white;
+  padding: 13px;
+  border: none;
+  border-radius: 28px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.add-btn:hover {
+  background: linear-gradient(135deg, #5c2c0c, #b45309);
+}
+
+.disabled-btn {
+  width: 100%;
+  background: #999;
+  color: white;
+  padding: 13px;
+  border: none;
+  border-radius: 28px;
+  cursor: not-allowed;
+}
+.menu-topbar {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 35px;
+}
+
+.search-box {
+  width: 420px;
+  max-width: 100%;
+  padding: 16px 22px;
+  border-radius: 40px;
+  border: 1px solid #ead7c0;
+  background: white;
+  font-size: 16px;
+  box-shadow: 0 10px 25px rgba(60,30,10,0.08);
+  outline: none;
+}
+
+.search-box:focus {
+  border-color: #d97706;
+  box-shadow: 0 0 0 4px rgba(217,119,6,0.15);
+}

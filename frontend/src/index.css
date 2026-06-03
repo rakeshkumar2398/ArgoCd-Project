@@ -1,0 +1,47 @@
+:root {
+  font-family: "Segoe UI", system-ui, Arial, sans-serif;
+  color: #2d1b0f;
+  background-color: #fff7ed;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: #fff7ed;
+}
+
+a {
+  color: inherit;
+}
+
+button,
+input,
+textarea {
+  font-family: inherit;
+}
+
+button {
+  transition: 0.25s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}

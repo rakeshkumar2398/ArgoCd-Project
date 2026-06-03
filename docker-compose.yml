@@ -1,0 +1,52 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: chai-kafe-postgres
+    environment:
+      POSTGRES_DB: chaikafe
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - chai-kafe-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: chai-kafe-backend
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: chaikafe
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    networks:
+      - chai-kafe-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: chai-kafe-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - chai-kafe-network
+
+volumes:
+  postgres_data:
+
+networks:
+  chai-kafe-network:
+    driver: bridge
