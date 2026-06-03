@@ -1,8 +1,7 @@
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: chaicafe-postgres
+  name: argocdproject-postgres-deployment
   namespace: chaicafe
   labels:
     app: chaicafe-postgres
@@ -33,3 +32,6 @@ spec:
             secretKeyRef:
               name: postgres-secret
               key: POSTGRES_PASSWORD
+
+        - name: POSTGRES_DB
+          value: cafe_db
