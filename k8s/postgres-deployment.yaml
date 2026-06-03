@@ -1,0 +1,35 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argocdproject-postgres-deployment
+  namespace: chaicafe
+  labels:
+    app: chaicafe-postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chaicafe-postgres
+  template:
+    metadata:
+      labels:
+        app: chaicafe-postgres
+    spec:
+      containers:
+      - name: Chaicafe-postgres
+        image: postgres:15
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: POSTGRES_USER
+
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: POSTGRES_PASSWORD
