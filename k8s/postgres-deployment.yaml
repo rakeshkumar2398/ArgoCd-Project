@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: argocdproject-postgres-deployment
+  name: chaicafe-postgres
   namespace: chaicafe
   labels:
     app: chaicafe-postgres
@@ -17,7 +17,7 @@ spec:
         app: chaicafe-postgres
     spec:
       containers:
-      - name: Chaicafe-postgres
+      - name: chaicafe-postgres
         image: postgres:15
         ports:
         - containerPort: 5432
