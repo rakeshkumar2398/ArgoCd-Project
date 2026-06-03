@@ -1,0 +1,23 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argocdproject-frontend-deployment
+  namespace: chaicafe
+  labels:
+    app: chaicafe-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: chaicafe-frontend
+  template:
+    metadata:
+      labels:
+        app: chaicafe-frontend
+    spec:
+      containers:
+      - name: Chaicafe-frontend
+        image: rakeshkumar2398/frontend:latest
+        ports:
+        - containerPort: 80
