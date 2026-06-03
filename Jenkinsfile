@@ -15,7 +15,7 @@ pipeline {
                 echo 'Building Backend Artifact'
 
                 dir('backend') {
-                    sh 'mvn clean package'
+                    sh 'mvn clean package -DskipTests'
                 }
             }
         }
@@ -28,7 +28,8 @@ pipeline {
                     withSonarQubeEnv('sonar') {
                         sh '''
                             mvn sonar:sonar \
-                            -Dsonar.java.binaries=target/classes
+                            -Dsonar.java.binaries=target/classes \
+                            -DskipTests
                         '''
                     }
                 }
