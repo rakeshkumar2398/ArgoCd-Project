@@ -130,13 +130,52 @@ Developer → GitHub → Jenkins Pipeline
 
 ---
 
-# 📸 Screenshots
+## 📸 Project Screenshots
 
-- Jenkins Pipeline
-- ArgoCD Dashboard
-- EKS Pods & Services
-- Frontend Application UI
-- SonarQube Dashboard
+### 🔄 Jenkins CI/CD Pipeline
+![Jenkins Pipeline](screenshots/jenkins.png)
+
+---
+
+### ☁️ Amazon EKS Kubernetes Resources
+![Kubernetes Output](screenshots/kubectl%20output.png)
+
+---
+
+### 🚀 ArgoCD GitOps Dashboard
+![ArgoCD Dashboard](screenshots/argocd.png)
+
+### 🚀 ArgoCD Application Resources
+![ArgoCD Resources](screenshots/argocd1.png)
+
+### 🚀 ArgoCD Deployment View
+![ArgoCD Deployments](screenshots/argocd2.png)
+
+### 🚀 ArgoCD Sync Status
+![ArgoCD Sync](screenshots/argocd4.png)
+
+---
+
+### 🐳 DockerHub Images
+![DockerHub](screenshots/docker.png)
+
+---
+
+### 🔐 SonarQube Code Quality Dashboard
+![SonarQube](screenshots/sonarqube.png)
+
+---
+
+### 🛡️ Trivy Vulnerability Scan
+![Trivy Scan](screenshots/trivy.png)
+
+### 🛡️ Trivy Critical Scan
+![Trivy Critical](screenshots/trivy1.png)
+
+---
+
+### ☕ ChaiCafe Frontend Application
+![Frontend UI](screenshots/frontend.png)
 
 ---
 
