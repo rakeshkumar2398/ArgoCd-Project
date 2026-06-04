@@ -30,7 +30,7 @@ pipeline {
                 echo 'Running SonarQube Scan'
 
                 dir('backend') {
-                    withSonarQubeEnv('sonar') {
+                    withSonarQubeEnv('sonarqube') {
                         sh '''
                             mvn sonar:sonar \
                             -Dsonar.java.binaries=target/classes \
