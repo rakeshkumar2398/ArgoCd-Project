@@ -2,52 +2,37 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: argocdproject-backend-deployment
+  name: argocdproject-postgres-deployment
   namespace: chaicafe
   labels:
-    app: chaicafe-backend
+    app: chaicafe-postgres
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
-      app: chaicafe-backend
+      app: chaicafe-postgres
   template:
     metadata:
       labels:
-        app: chaicafe-backend
+        app: chaicafe-postgres
     spec:
       containers:
-      - name: chaicafe-backend
-        image: rakesh2398/backend:latest
+      - name: chaicafe-postgres
+        image: postgres:15
         ports:
-        - containerPort: 8080
+        - containerPort: 5432
         env:
-        - name: DB_HOST
-          valueFrom:
-            configMapKeyRef:
-              name: app-config
-              key: DB_HOST
-
-        - name: DB_PORT
-          valueFrom:
-            configMapKeyRef:
-              name: app-config
-              key: DB_PORT
-
-        - name: DB_NAME
-          valueFrom:
-            configMapKeyRef:
-              name: app-config
-              key: DB_NAME
-
-        - name: DB_USER
+        - name: POSTGRES_USER
           valueFrom:
             secretKeyRef:
               name: postgres-secret
               key: POSTGRES_USER
 
-        - name: DB_PASSWORD
+        - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
               name: postgres-secret
               key: POSTGRES_PASSWORD
+
+        - name: POSTGRES_DB
+          value: cafe_db
