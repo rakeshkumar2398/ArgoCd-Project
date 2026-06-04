@@ -78,6 +78,7 @@ Developer → GitHub → Jenkins Pipeline
 - Secrets
 - LoadBalancer
 - ReplicaSets
+- Ingress Controller
 
 ---
 
