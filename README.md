@@ -8,6 +8,14 @@ This project demonstrates complete CI/CD automation using Jenkins, Docker, Sonar
 
 ---
 
+## Project Type
+
+This is a DevOps portfolio project created to demonstrate practical hands-on experience with Kubernetes, AWS EKS, CI/CD, GitOps, container security scanning, and application deployment.
+
+This project is not a production system, but it follows real-world DevOps deployment practices.
+
+---
+
 # 🏗️ Architecture
 
 ```text
