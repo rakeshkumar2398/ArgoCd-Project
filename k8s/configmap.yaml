@@ -4,6 +4,6 @@ metadata:
   name: app-config
   namespace: chaicafe
 data:
-  DB_HOST: argocdproject-postgres-service
+  DB_HOST: postgres-service
   DB_PORT: "5432"
   DB_NAME: cafe_db
