@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: chaicafe-backend
-        image: rakesh2398/backend:7
+        image: rakesh2398/backend:latest
         ports:
         - containerPort: 8080
         env:
